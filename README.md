@@ -5,9 +5,7 @@ Deep Learning for Meteorological Forecasting: Advanced Weather Prediction Using 
 1. [Overview](#overview)
 2. [Data Collection](#data-collection)
    - [Data Sources](#data-sources)
-   - [Date Handling](#date-handling)
    - [Error Resolution](#error-resolution)
-   - [Nan Value Imputation](#nan-value-imputation)
 3. [Data Cleaning for LSTM](#data-cleaning-for-lstm)
    - [Datetime Indexing](#datetime-indexing)
    - [Cyclical Feature Encoding](#cyclical-feature-encoding)
@@ -25,12 +23,19 @@ Deep Learning for Meteorological Forecasting: Advanced Weather Prediction Using 
 10. [Acknowledgements](#acknowledgements)
 
 ## Overview
-This project implements a weather prediction model using Long Short-Term Memory (LSTM) networks. The model forecasts weather conditions such as temperature, humidity, and UV index based on historical data from the King's Park weather dataset in Hong Kong, spanning from 2000 to 2023.
+This project implements a weather prediction model using Long Short-Term Memory (LSTM) networks. The model forecasts weather conditions such as temperature, humidity, and UV index based on historical data, spanning from 2000 to 2023. To increase the accuracy of the analysis all collected datasets are based on location, which is King's Park in Hong Kong. 
+
+Since first I did this project for the purpus of learning some years ago, many different model and archituctures are tried, so my goal is to gather all experiences in case someone wants to use this repo for the purpus of learning.
+
+I decided  to predict weather conditions such as temperature, humidity, and UV for future days based on the historical data as LSTM is particularly well-suited for this application because it can learn the complex patterns in the weather data over time and make accurate predictions. To framing input sequences I organised the historical weather data into sequences of a fixed length, which will serve as the input to the model. For example, a sequence length of 7 days is chosen, meaning that the model will use the weather data from the past 7 days to predict the weather for the next few days(1 or 2 or 4 days). 
+The output sequences represent the predicted weather conditions for the coming days (1 or 2 or 4) and will contain the predicted values for temperature, humidity.
+
 
 ## Data Collection
+The dataset for this project is collected from various sources available on the Hong Kong government data portal and CSDI website. The datasets include:
+The `Date` column was created by combining the `year`, `month`, and `day` columns into a single datetime object, which serves as the primary key for merging datasets.
 
 ### Data Sources
-The data for this project is collected from various datasets available on the Hong Kong government data portal. The datasets include:
 1. Daily mean amount of cloud      [Link to Hong Kong Government portal](https://data.gov.hk/en-data/dataset/hk-hko-rss-daily-mean-amount-of-cloud)
 2. Daily total bright sunshine     [Daily total bright sunshine](https://data.gov.hk/en-data/dataset/hk-hko-rss-daily-total-bright-sunshine )
 3. Daily total evaporation         [Link to Hong Kong Government portal](https://data.gov.hk/en-data/dataset/hk-hko-rss-daily-total-evaporation)
@@ -42,24 +47,28 @@ The data for this project is collected from various datasets available on the Ho
 9. Daily maximum mean UV index     [Link to Hong Kong Government portal](https://data.gov.hk/en-data/dataset/hk-hko-rss-daily-maximum-mean-uv-index)
 10. Daily mean wind speed          [Link to Hong Kong Government portal](https://data.gov.hk/en-data/dataset/hk-hko-rss-daily-mean-wind-speed)
 
-
-
-### Date Handling
-The `Date` column was created by combining the `year`, `month`, and `day` columns into a single datetime object, which serves as the primary key for merging datasets.
-
 ### Error Resolution
 Errors were encountered due to incorrect date values in some datasets. The problematic `df_mean_pressure` DataFrame was identified, and entries outside the valid date range (2000-01-01 to 2023-12-31) were removed.
 
-### Nan Value Imputation
-Missing values were addressed by calculating the mean of adjacent values and filling in gaps, resulting in a clean dataset for analysis.
+If you try to work with individual datasets rather than the cleaned one, you will encounter many issues that need to address, but one of them is 
 
-## Data Cleaning for LSTM
+I encountered errors due to incorrect date values in some rows. It appears that the issue lies in one of the data frames where a month has more rows than it should, such as having 30 rows for a 29-day month. To resolve the issue, I need to identify the problematic data frame and correct the problem.
+Since there are 14 datasets with over 300,000 rows in total, I believe it would be more efficient to create the date column for each data frame individually as below (The snipped code picture is removed due to limitation in length snipped code 87 to 94). Finally I realised that data frame "df_mean_pressure" has the problem, below I will try to remove the early month as possibly they have the problems. In the stage I want just keep the data points from ` 2000-01-01` to `2023-12-31`, so I will do as below:
+
+
+## Data Preprocessing 
 
 ### Datetime Indexing
 The `Date` column was converted to a datetime object and set as the index, while the original `Date` column was dropped.
 
+To combine the "year", "month", and "day" columns into a single "date" column with a datetime type, I will use the function below:
+This function checks if the "year", "month", and "day" columns exist in each DataFrame. If they do, it creates a new "date" column by combining these columns using `pd.to_datetime()`, which converts the combined columns into a datetime type. Then, it removes the original "year", "month", and "day" columns using `drop()`, and sets the "date" column as the index.
+
+
 ### Cyclical Feature Encoding
-New columns representing the cyclical nature of time (`Year sin` and `Year cos`) were created to help the model understand seasonal patterns.
+New columns representing the cyclical nature of time (`Year sin` and `Year cos`) were created to help the model understand seasonal patterns, which is essencial for for time series prediction.
+
+
 
 ### Wind Vector Calculation
 Wind direction was transformed into x and y components (`mean_wind_x` and `mean_wind_y`) to improve the input representation of wind data.
