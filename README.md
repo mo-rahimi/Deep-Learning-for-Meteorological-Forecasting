@@ -1,6 +1,9 @@
 # Deep-Learning-for-Meteorological-Forecasting
 Deep Learning for Meteorological Forecasting: Advanced Weather Prediction Using LSTM Networks
 
+<img src="https://Images/" align="right"
+     alt="Size " width="120" height="178">
+     
 ## Table of Contents
 1. [Overview](#overview)
 2. [Data Collection](#data-collection)
