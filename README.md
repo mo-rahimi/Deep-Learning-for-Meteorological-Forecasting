@@ -67,8 +67,6 @@ Since there are 14 datasets with over 300,000 rows in total, I believe it would 
 ### Datetime Indexing
 The `Date` column was converted to a datetime object and set as the index, while the original `Date` column was dropped.
 
-
-
 ### Cyclical Feature Encoding
 New columns representing the cyclical nature of time (`Year sin` and `Year cos`) were created to help the model understand seasonal patterns, which is essencial for for time series prediction.
 
@@ -106,7 +104,7 @@ ax.axis('tight')
 plt.savefig('wind_x_y.png', format='png')
 plt.show()
 ```
-<img src="Images/wind_x_y.png" alt="Overview of the project" width="50%">
+<img src="Images/wind_x_y.png" alt="Overview of the project" width="70%">
 
 ### Data Splitting
 The dataset was divided into training (70%), validation (20%), and test (10%) sets for effective model training and evaluation.
