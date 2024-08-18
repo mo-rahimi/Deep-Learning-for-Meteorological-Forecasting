@@ -23,10 +23,9 @@ Deep Learning for Meteorological Forecasting: Advanced Weather Prediction Using 
    - [Loss Functions](#loss-functions)
 5. [Results and Evaluation](#results-and-evaluation)
 6. [Installation](#installation)
-7. [Usage](#usage)
-8. [Contributing](#contributing)
-9. [License](#license)
-10. [Acknowledgements](#acknowledgements)
+7. [Contributing](#contributing)
+8. [License](#license)
+9. [Contact](#contact)
 
 ## Overview
 This project implements a weather prediction model using Long Short-Term Memory (LSTM) networks. The model forecasts weather conditions such as temperature, humidity, and UV index based on historical data, spanning from 2000 to 2023. To increase the accuracy of the analysis all collected datasets are based on location, which is King's Park in Hong Kong. 
@@ -154,24 +153,12 @@ git clone https://github.com/mo-rahimi/Deep-Learning-for-Meteorological-Forecast
 
 ```
 
-## Usage
-To run the weather forecasting model, execute the following command:
-
-```bash
-python main.py
-```
-
-Make sure to adjust any configuration settings in the `config.py` file as necessary.
-
 ## Contributing
 Contributions are welcome! Please feel free to submit a pull request or open an issue to discuss potential improvements.
 
 ## License
 This project is licensed under the MIT License. 
 
-## Acknowledgements
-- Special thanks to the Hong Kong government for providing the weather datasets.
-- Thanks to the open-source community for their contributions to machine learning libraries used in this project.
-
+## Contact
 
 
