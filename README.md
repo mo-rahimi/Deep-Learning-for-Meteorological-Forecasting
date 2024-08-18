@@ -143,7 +143,13 @@ Features were standardized using the mean and standard deviation calculated from
 Mean Squared Error (MSE) was chosen as the loss function for training, while Mean Absolute Error (MAE) was used for evaluating model performance.
 
 ## Results and Evaluation
-The model was evaluated using MSE and MAE metrics, providing insights into its predictive accuracy and performance across different weather parameters.
+The model was evaluated using MSE and MAE metrics, providing insights into its predictive accuracy and performance across different weather parameters. Based on the graphs below there are rooms for improvement, For example after epoch 25, over feeting is happening, so we have to stop training. So feel free to clone and improve the model.
+
+<div style="display: flex; justify-content: space-around;">
+    <img src="Images/rmse.png" alt="Image 1" width="42%">
+    <img src="Images/rmse.log.png" alt="Image 2" width="42%">
+   
+</div>
 
 ## Installation
 To set up this project, clone the repository and install the required Python packages:
@@ -160,5 +166,5 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 This project is licensed under the MIT License. 
 
 ## Contact
-
+For inquiries, feedback or further information, please contact me🙂 at m.rahimi.hk@gmail.com
 
