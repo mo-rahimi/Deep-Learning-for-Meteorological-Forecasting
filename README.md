@@ -28,17 +28,18 @@ Deep Learning for Meteorological Forecasting: Advanced Weather Prediction Using 
 9. [Contact](#contact)
 
 ## Overview
-This project implements a weather prediction model using Long Short-Term Memory (LSTM) networks. The model forecasts weather conditions such as temperature, humidity, and UV index based on historical data, spanning from 2000 to 2023. To increase the accuracy of the analysis all collected datasets are based on location, which is King's Park in Hong Kong. 
+This project utilizes Long Short-Term Memory (LSTM) networks for weather prediction, specifically forecasting temperature, humidity, and UV index based on historical data from 2000 to 2023. All datasets are sourced from King's Park in Hong Kong to enhance accuracy.
 
-Since first I did this project for the purpus of learning some years ago, many different model and archituctures are tried, so my goal is to gather all experiences in case someone wants to use this repo for the purpus of learning.
+Initially developed for learning purposes, this repository compiles various models and architectures I've explored, making it a valuable resource for others interested in deep learning.
 
-I decided  to predict weather conditions such as temperature, humidity, and UV for future days based on the historical data as LSTM is particularly well-suited for this application because it can learn the complex patterns in the weather data over time and make accurate predictions. To framing input sequences I organised the historical weather data into sequences of a fixed length, which will serve as the input to the model. For example, a sequence length of 7 days is chosen, meaning that the model will use the weather data from the past 7 days to predict the weather for the next few days(1 or 2 or 4 days). 
-The output sequences represent the predicted weather conditions for the coming days (1 or 2 or 4) and will contain the predicted values for temperature, humidity.
-
+LSTM networks are particularly effective for this task as they can capture complex patterns in time-series data. Historical weather data is organized into fixed-length sequences—specifically, `a sequence length of 7 days`. This allows the model to predict weather conditions for `the next 1, 2, or 4 days` based on the preceding week. The output sequences include the forecasted values for `temperature`, `humidity` and `UV index`.
 
 ## Data Collection
-The dataset for this project is collected from various sources available on the Hong Kong government data portal and CSDI website. The datasets include:
-The `Date` column was created by combining the `year`, `month`, and `day` columns into a single datetime object, which serves as the primary key for merging datasets.
+The dataset for this project is sourced from various resources on the `Hong Kong government data portal` and the `CSDI website`. 
+
+**Key details include:**
+- The Date column is created by merging the year, month, and day columns into a single datetime object, which acts as the primary key for dataset integration.
+These datasets encompass a wide range of meteorological and spatial data, facilitating comprehensive weather analysis.
 
 ### Data Sources
 1. Daily mean amount of cloud      [Link to Hong Kong Government portal](https://data.gov.hk/en-data/dataset/hk-hko-rss-daily-mean-amount-of-cloud)
@@ -53,13 +54,11 @@ The `Date` column was created by combining the `year`, `month`, and `day` column
 10. Daily mean wind speed          [Link to Hong Kong Government portal](https://data.gov.hk/en-data/dataset/hk-hko-rss-daily-mean-wind-speed)
 
 ### Error Resolution
-Errors were encountered due to incorrect date values in some datasets. The problematic `df_mean_pressure` DataFrame was identified, and entries outside the valid date range (2000-01-01 to 2023-12-31) were removed.
+Errors arose from incorrect date values in some datasets, particularly in the `df_mean_pressure DataFrame`. Entries outside the valid date range (January 1, 2000, to December 31, 2023) were removed.
 
-If you try to work with individual datasets rather than the cleaned one, you will encounter many issues that need to address, but one of them is 
+When working with individual datasets, you may encounter several issues, one of which is the presence of incorrect date values. For example, some months contained more rows than expected, such as having 30 rows for a 29-day month. To address this, I identified the problematic DataFrame and corrected the discrepancies.
 
-I encountered errors due to incorrect date values in some rows. It appears that the issue lies in one of the data frames where a month has more rows than it should, such as having 30 rows for a 29-day month. To resolve the issue, I need to identify the problematic data frame and correct the problem.
-Since there are 14 datasets with over 300,000 rows in total, I believe it would be more efficient to create the date column for each data frame individually as below (The snipped code picture is removed due to limitation in length snipped code 87 to 94). Finally I realised that data frame "df_mean_pressure" has the problem, below I will try to remove the early month as possibly they have the problems. In the stage I want just keep the data points from ` 2000-01-01` to `2023-12-31`, so I will do as below:
-
+Given that there are 14 datasets with over 300,000 rows in total, I found it more efficient **to create the date column for each DataFrame individually**. After analysis, I confirmed that the df_mean_pressure DataFrame was problematic. 
 
 ## Data Preprocessing 
 
@@ -111,11 +110,11 @@ The dataset was divided into training (70%), validation (20%), and test (10%) se
 ## Model Development
 
 ### Input and Output Arrays
-The `df_to_X_y` function was utilized to convert the DataFrame into input (X) and output (y) arrays, using a window size of 7 or 14 days to predict the next 1, 2, or 4 days of weather.
+The df_to_X_y function converts the DataFrame into input (X) and output (y) arrays, employing a window size of 7 or 14 days to forecast the weather for the next 1, 2, or 4 days.
 
-For Example,in the snipped code below predict the next 2 days.
+For example, in the code snippet below, we demonstrate how to predict the weather for the next 2 days:
+
 ```python
-
 def df_to_X_y_days(df, window_size=7):
     df_as_np = df.to_numpy()
     X = []
@@ -137,17 +136,23 @@ X_days_test, y_days_test = X_days[7800:], y_days[7800:]
 ```
 
 ### Standardization
-Features were standardized using the mean and standard deviation calculated from the training dataset, excluding cyclical features and wind vector components. Just be careful to normalize the eveluation and test dataset by using mean and SD from training data set.
+Features were standardized using the mean and standard deviation derived from the training dataset, while excluding cyclical features and wind vector components.
+
+`It's important to normalize the evaluation and test datasets using the mean and standard deviation from the training dataset to avoid common pitfalls.`
 
 ### Loss Functions
 Mean Squared Error (MSE) was chosen as the loss function for training, while Mean Absolute Error (MAE) was used for evaluating model performance.
 
 ## Results and Evaluation
-The model was evaluated using MSE and MAE metrics, providing insights into its predictive accuracy and performance across different weather parameters. Based on the graphs below there are rooms for improvement, For example after epoch 25, over feeting is happening, so we have to stop training. So feel free to clone and improve the model.
+The model's performance was assessed using Mean Squared Error `(MSE)` and Mean Absolute Error `(MAE)` metrics, offering insights into its predictive accuracy across various weather parameters.
+
+As illustrated in the graphs below, there is room for improvement. For instance, after epoch 25, the model begins to overfit, indicating that training should be halted at that point.
+
+`Feel free to clone this repository and enhance the model further!`
 
 <div style="display: flex; justify-content: space-around;">
-    <img src="Images/rmse.png" alt="Image 1" width="42%">
-    <img src="Images/rmse.log.png" alt="Image 2" width="42%">
+    <img src="Images/rmse.png" alt="Image 1" width="46%">
+    <img src="Images/rmse.log.png" alt="Image 2" width="46%">
    
 </div>
 
