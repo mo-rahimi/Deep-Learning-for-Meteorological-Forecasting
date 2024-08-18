@@ -6,7 +6,7 @@ Deep Learning for Meteorological Forecasting: Advanced Weather Prediction Using 
 ## Table of Contents
 
 <img src="Images/try3_pred.png" align="right"
-     alt="Size " width="420" height="478">
+     alt="Size " width="510" height="560">
      
 1. [Overview](#overview)
 2. [Data Collection](#data-collection)
