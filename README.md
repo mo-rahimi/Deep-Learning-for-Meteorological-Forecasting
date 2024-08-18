@@ -150,9 +150,8 @@ The model was evaluated using MSE and MAE metrics, providing insights into its p
 To set up this project, clone the repository and install the required Python packages:
 
 ```bash
-git clone https://github.com/yourusername/weather-forecasting-lstm.git
-cd weather-forecasting-lstm
-pip install -r requirements.txt
+git clone https://github.com/mo-rahimi/Deep-Learning-for-Meteorological-Forecasting.git
+
 ```
 
 ## Usage
