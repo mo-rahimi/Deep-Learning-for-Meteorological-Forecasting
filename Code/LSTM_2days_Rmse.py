@@ -1,5 +1,5 @@
 import pandas as pd
-pd.set_option("display.max_columns", None)  # Show all columns
+pd.set_option("display.max_columns", None)  # Show all columns, 
 pd.set_option("display.max_rows", None)  # Show all rows
 import matplotlib.pyplot as plt
 import numpy as np
